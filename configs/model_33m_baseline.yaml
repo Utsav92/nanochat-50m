@@ -1,0 +1,24 @@
+{
+  "depth": 6,
+  "n_embd": 320,
+  "n_head": 5,
+  "head_dim": 64,
+  "vocab_size": 16384,
+  "padded_vocab_size": 16384,
+  "sequence_len": 1024,
+  "window_pattern": "L",
+  "total_params": 33587418,
+  "trainable_params": 33587418,
+  "breakdown": {
+    "wte": 5242880,
+    "lm_head": 5242880,
+    "value_embeds": 15728640,
+    "attention": 2457780,
+    "mlp": 4915200,
+    "scalars": 38
+  },
+  "non_embedding_params": 7373018,
+  "mem_fp32_MB": 134.349672,
+  "mem_bf16_MB": 67.174836,
+  "cli": "--depth=6 --aspect-ratio=53 --head-dim=64 --max-seq-len=1024"
+}

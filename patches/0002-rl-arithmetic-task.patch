@@ -1,0 +1,74 @@
+diff --git a/scripts/chat_rl.py b/scripts/chat_rl.py
+index 91f17f5..24430e4 100644
+--- a/scripts/chat_rl.py
++++ b/scripts/chat_rl.py
+@@ -26,6 +26,7 @@ from nanochat.common import compute_init, compute_cleanup, print0, get_base_dir,
+ from nanochat.checkpoint_manager import save_checkpoint, load_model
+ from nanochat.engine import Engine
+ from tasks.gsm8k import GSM8K
++from tasks.arithmetic import ArithmeticTask  # nanochat-50m patch
+ 
+ # -----------------------------------------------------------------------------
+ # CLI arguments
+@@ -38,6 +39,7 @@ parser.add_argument("--device-type", type=str, default="", help="cuda|cpu|mps (e
+ parser.add_argument("--model-tag", type=str, default=None, help="model tag to load from")
+ parser.add_argument("--model-step", type=int, default=None, help="model step to load from")
+ # Training horizon
++parser.add_argument("--task", type=str, default="gsm8k", choices=["gsm8k", "arithmetic"], help="nanochat-50m patch: RL task")
+ parser.add_argument("--num-epochs", type=int, default=1, help="number of epochs over GSM8K")
+ # Batch sizes / sampling
+ parser.add_argument("--device-batch-size", type=int, default=8, help="max batch size per forward pass")
+@@ -77,8 +79,12 @@ engine = Engine(model, tokenizer) # for sampling rollouts
+ # -----------------------------------------------------------------------------
+ # Rollout / sampling generator loop that yields batches of examples for training
+ 
+-train_task = GSM8K(subset="main", split="train")
+-val_task = GSM8K(subset="main", split="test")
++if args.task == "gsm8k":
++    train_task = GSM8K(subset="main", split="train")
++    val_task = GSM8K(subset="main", split="test")
++else:
++    train_task = ArithmeticTask(split="train", num_examples=4000)
++    val_task = ArithmeticTask(split="test", num_examples=400)
+ num_steps = (len(train_task) // args.examples_per_step) * args.num_epochs
+ print0(f"Calculated number of steps: {num_steps}")
+ 
+diff --git a/tasks/arithmetic.py b/tasks/arithmetic.py
+new file mode 100644
+index 0000000..60190da
+--- /dev/null
++++ b/tasks/arithmetic.py
+@@ -0,0 +1,33 @@
++"""Synthetic arithmetic task with deterministic, programmatically verified answers (nanochat-50m addition; not part of upstream).
++Train/val problems are disjoint BY CONSTRUCTION: a problem (a, op, b) belongs to val iff sha1(key) % 10 == 0."""
++import hashlib, random, re
++from tasks.common import Task
++
++def _problem(rng):
++    op = rng.choice(["+", "-", "+", "-", "*"])
++    if op == "*": a, b = rng.randint(0, 12), rng.randint(0, 12)
++    else: a, b = rng.randint(0, 99), rng.randint(0, 99)
++    return a, op, b
++def _answer(a, op, b): return {"+": a + b, "-": a - b, "*": a * b}[op]
++def _is_val(a, op, b): return int(hashlib.sha1(f"{a}{op}{b}".encode()).hexdigest(), 16) % 10 == 0
++
++class ArithmeticTask(Task):
++    def __init__(self, split, num_examples=4000, **kwargs):
++        super().__init__(**kwargs)
++        assert split in ("train", "test"); self.split, self.n = split, num_examples
++    @property
++    def eval_type(self): return "generative"
++    def num_examples(self): return self.n
++    def get_example(self, index):
++        rng = random.Random(f"arith-{self.split}-{index}")
++        while True:
++            a, op, b = _problem(rng)
++            if _is_val(a, op, b) == (self.split == "test"): break
++        q = f"What is {a} {op} {b}?"
++        return {"messages": [{"role": "user", "content": q}, {"role": "assistant", "content": str(_answer(a, op, b))}]}
++    def evaluate(self, conversation, assistant_response):
++        assert isinstance(assistant_response, str)
++        ref = conversation["messages"][-1]["content"]
++        nums = re.findall(r"-?\d+", assistant_response)
++        return int(bool(nums) and nums[-1] == ref)
++    def reward(self, conversation, assistant_response): return float(self.evaluate(conversation, assistant_response))

@@ -1,0 +1,76 @@
+diff --git a/scripts/chat_sft.py b/scripts/chat_sft.py
+index 86a9e6f..04b13b3 100644
+--- a/scripts/chat_sft.py
++++ b/scripts/chat_sft.py
+@@ -29,6 +29,7 @@ from tasks.common import TaskMixture
+ from tasks.gsm8k import GSM8K
+ from tasks.mmlu import MMLU
+ from tasks.smoltalk import SmolTalk
++from tasks.jsonl import JSONLTask
+ 
+ # -----------------------------------------------------------------------------
+ # CLI arguments
+@@ -63,6 +64,9 @@ parser.add_argument("--chatcore-max-cat", type=int, default=-1, help="max proble
+ parser.add_argument("--chatcore-max-sample", type=int, default=24, help="max problems per generative task for ChatCORE")
+ # Data mixture
+ parser.add_argument("--mmlu-epochs", type=int, default=3, help="number of epochs of MMLU in training mixture (teaches Multiple Choice)")
++parser.add_argument("--smoltalk-rows", type=int, default=0, help="cap SmolTalk train rows (0 = all)")
++parser.add_argument("--mmlu-rows", type=int, default=0, help="cap MMLU auxiliary_train rows per epoch (0 = all)")
++parser.add_argument("--extra-jsonl", nargs="*", default=[], help="local conversation JSONL files, each as path[:repeat]")
+ parser.add_argument("--gsm8k-epochs", type=int, default=4, help="number of epochs of GSM8K in training mixture (teaches Math and Tool Use)")
+ args = parser.parse_args()
+ user_config = vars(args).copy()
+@@ -160,10 +164,13 @@ for group in optimizer.param_groups:
+ 
+ # SFT data mixture and DataLoader
+ train_tasks = [
+-    SmolTalk(split="train"), # 460K rows of general conversations
+-    *[MMLU(subset="all", split="auxiliary_train") for _ in range(args.mmlu_epochs)], # 100K rows per epoch
++    SmolTalk(split="train", **({"stop": args.smoltalk_rows} if args.smoltalk_rows else {})), # 460K rows of general conversations
++    *[MMLU(subset="all", split="auxiliary_train", **({"stop": args.mmlu_rows} if args.mmlu_rows else {})) for _ in range(args.mmlu_epochs)], # 100K rows per epoch
+     *[GSM8K(subset="main", split="train") for _ in range(args.gsm8k_epochs)], # 8K rows per epoch
+ ]
++for spec in args.extra_jsonl:
++    path, _, rep = spec.partition(":")
++    train_tasks += [JSONLTask(path) for _ in range(int(rep or 1))]
+ train_dataset = TaskMixture(train_tasks)
+ print0(f"Training mixture: {len(train_dataset):,} rows (MMLU x{args.mmlu_epochs}, GSM8K x{args.gsm8k_epochs})")
+ val_dataset = TaskMixture([
+@@ -196,6 +203,7 @@ def sft_data_generator_bos_bestfit(split, buffer_size=100):
+ 
+     # Conversation buffer: list of (token_ids, loss_mask) tuples
+     conv_buffer = []
++    n_skipped = [0]
+     cursor = ddp_rank  # Each rank processes different conversations (for fetching)
+     consumed = ddp_rank  # Track actual consumption separately from buffering
+     epoch = 1
+@@ -206,6 +214,10 @@ def sft_data_generator_bos_bestfit(split, buffer_size=100):
+         while len(conv_buffer) < buffer_size:
+             conversation = dataset[cursor]
+             ids, mask = tokenizer.render_conversation(conversation)
++            if len(ids) > row_capacity:  # nanochat-50m patch: skip conversations that can never fit a row (else they clog the buffer -> all-padding batches -> NaN loss at short context)
++                n_skipped[0] += 1; cursor += ddp_world_size
++                if cursor >= dataset_size: cursor = cursor % dataset_size; epoch += 1
++                continue
+             conv_buffer.append((ids, mask))
+             cursor += ddp_world_size
+             if cursor >= dataset_size:
+diff --git a/tasks/jsonl.py b/tasks/jsonl.py
+new file mode 100644
+index 0000000..0362e2e
+--- /dev/null
++++ b/tasks/jsonl.py
+@@ -0,0 +1,13 @@
++"""Task over a local JSONL file of conversations ({"messages": [...]} per line). nanochat-50m addition; not part of upstream."""
++import json
++from tasks.common import Task
++
++class JSONLTask(Task):
++    def __init__(self, path, **kwargs):
++        super().__init__(**kwargs)
++        with open(path) as f: self.rows = [json.loads(l) for l in f if l.strip()]
++        for r in self.rows: assert r["messages"][-1]["role"] == "assistant" and len(r["messages"]) % 2 == 0
++    @property
++    def eval_type(self): return "generative"
++    def num_examples(self): return len(self.rows)
++    def get_example(self, index): return {"messages": self.rows[index]["messages"]}

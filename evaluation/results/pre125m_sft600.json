@@ -1,0 +1,102 @@
+{
+  "source": "sft",
+  "tag": "pre125m",
+  "step": 600,
+  "arith_val_2digit_heldout": {
+    "tool_on": {
+      "correct": 12,
+      "n": 300,
+      "acc": 0.04,
+      "ci95": [
+        0.023,
+        0.0686
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 6,
+      "n": 300,
+      "acc": 0.02,
+      "ci95": [
+        0.0092,
+        0.0429
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "1/111",
+        "tool_off": "1/111"
+      },
+      "-": {
+        "tool_on": "4/139",
+        "tool_off": "2/139"
+      },
+      "*": {
+        "tool_on": "7/50",
+        "tool_off": "3/50"
+      }
+    }
+  },
+  "arith_3digit": {
+    "tool_on": {
+      "correct": 9,
+      "n": 300,
+      "acc": 0.03,
+      "ci95": [
+        0.0159,
+        0.056
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 0,
+      "n": 300,
+      "acc": 0.0,
+      "ci95": [
+        0.0,
+        0.0126
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "0/100",
+        "tool_off": "0/100"
+      },
+      "-": {
+        "tool_on": "0/100",
+        "tool_off": "0/100"
+      },
+      "*": {
+        "tool_on": "9/100",
+        "tool_off": "0/100"
+      }
+    }
+  },
+  "arc_easy_mc_letters": {
+    "correct": 585,
+    "n": 2376,
+    "acc": 0.2462,
+    "ci95": [
+      0.2293,
+      0.2639
+    ],
+    "chance": 0.2502
+  },
+  "arc_challenge_mc_letters": {
+    "correct": 281,
+    "n": 1172,
+    "acc": 0.2398,
+    "ci95": [
+      0.2162,
+      0.265
+    ],
+    "chance": 0.2502
+  },
+  "gsm8k": {
+    "correct": 0,
+    "n": 200,
+    "acc": 0.0,
+    "ci95": [
+      0.0,
+      0.0188
+    ]
+  }
+}

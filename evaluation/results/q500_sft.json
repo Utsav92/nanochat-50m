@@ -1,0 +1,238 @@
+{
+ "source": "sft",
+ "tag": "sci500m_b",
+ "step": 661,
+ "fake": {
+  "abstain": {
+   "correct": 0,
+   "n": 60,
+   "acc": 0.0,
+   "ci95": [
+    -0.0,
+    0.0602
+   ]
+  },
+  "hallucination_rate": 1.0,
+  "examples": [
+   {
+    "q": "Who is the president of the planet Zorblax?",
+    "pred": "Zorblax."
+   },
+   {
+    "q": "Who is the president of the planet Quendrel?",
+    "pred": "Quendrel is the president of the planet Quendrel. He is a Mexican President, and he is a Mexican President. He is a Mexi"
+   },
+   {
+    "q": "Who is the president of the planet Vlorpia?",
+    "pred": "Vlorpia."
+   },
+   {
+    "q": "Who is the president of the planet Mekthar?",
+    "pred": "Mekthar."
+   }
+  ]
+ },
+ "trivia": {
+  "answer_contains_gold": {
+   "correct": 14,
+   "n": 300,
+   "acc": 0.0467,
+   "ci95": [
+    0.028,
+    0.0768
+   ]
+  },
+  "accidental_baseline": {
+   "correct": 1,
+   "n": 300,
+   "acc": 0.0033,
+   "ci95": [
+    0.0006,
+    0.0186
+   ]
+  },
+  "abstain_rate": {
+   "correct": 0,
+   "n": 300,
+   "acc": 0.0,
+   "ci95": [
+    0.0,
+    0.0126
+   ]
+  },
+  "samples": [
+   {
+    "q": "What long running public radio program, and short lived TV series, debuted in 1995 as Your Radio Playhouse?",
+    "gold": "That American Life",
+    "pred": "Debuted in 1995 as Your Radio Playhouse.",
+    "hit": true
+   },
+   {
+    "q": "A polygraph is more popularly called a?",
+    "gold": "Psychophysiological detection of deception",
+    "pred": "polygraph.",
+    "hit": true
+   },
+   {
+    "q": "Which King of England sold Dunkirk to Louis XIV of France?",
+    "gold": "King Charles the Second",
+    "pred": "King Tut.",
+    "hit": false
+   },
+   {
+    "q": "Which French chemist, regarded as the father of modern chemistry, was guillotined in 1794?",
+    "gold": "Lavoisierian",
+    "pred": "Mari-Mutuel.",
+    "hit": false
+   },
+   {
+    "q": "The Springfield, Mass YMCA saw the first game of what played on January 20, 1892, when 9 players ended the game with a 1-0 score?",
+    "gold": "Basketball",
+    "pred": "The Springfield, Mass YMCA saw the first game of played on January 20, 1892.",
+    "hit": false
+   },
+   {
+    "q": "What football team did Arsene Wenger manage immediately before Arsenal?",
+    "gold": "Toyota Motor F.C.",
+    "pred": "Leeds United Tele Television.",
+    "hit": false
+   }
+  ]
+ },
+ "squad": {
+  "answerable_contains_gold": {
+   "correct": 64,
+   "n": 300,
+   "acc": 0.2133,
+   "ci95": [
+    0.1708,
+    0.2632
+   ]
+  },
+  "answerable_f1": 0.24819108839708415,
+  "over_abstention_on_answerable": {
+   "correct": 76,
+   "n": 300,
+   "acc": 0.2533,
+   "ci95": [
+    0.2074,
+    0.3055
+   ]
+  },
+  "unanswerable_abstain": {
+   "correct": 122,
+   "n": 300,
+   "acc": 0.4067,
+   "ci95": [
+    0.3526,
+    0.4631
+   ]
+  },
+  "hallucination_rate_unanswerable": 0.5933333333333333,
+  "answerable_examples": [
+   {
+    "q": "When was Warsaw's stock exchange brought back to life?",
+    "gold": "April 1991",
+    "pred": "1817"
+   },
+   {
+    "q": "How much Saharan dust is blown and falls upon the Caribbean Sea each year?",
+    "gold": "43 million tons",
+    "pred": "35 million tons"
+   },
+   {
+    "q": "Along with sport and art, what is a type of talent scholarship?",
+    "gold": "academic",
+    "pred": "non-governmental"
+   },
+   {
+    "q": "How many streetcars did the Fresno Traction Company operate in 1931?",
+    "gold": "47 streetcars",
+    "pred": "47 streetcars"
+   }
+  ],
+  "unanswerable_examples": [
+   {
+    "q": "What does the currently flooded ditch still have visible?",
+    "pred": "l visible"
+   },
+   {
+    "q": "NSF began in 1985 to promote what?",
+    "pred": "advanced research and education networking"
+   },
+   {
+    "q": "Discovery of gas in the North Sea resulted in what?",
+    "pred": "sudden and less benefitting"
+   },
+   {
+    "q": "What form do complex rational primes have?",
+    "pred": "Rational primes"
+   }
+  ]
+ },
+ "humaneval": {
+  "pass_at_1": {
+   "correct": 1,
+   "n": 164,
+   "acc": 0.0061,
+   "ci95": [
+    0.0011,
+    0.0337
+   ]
+  },
+  "defined_entry_point": {
+   "correct": 158,
+   "n": 164,
+   "acc": 0.9634,
+   "ci95": [
+    0.9225,
+    0.9831
+   ]
+  },
+  "samples": [
+   {
+    "task": "HumanEval/0",
+    "passed": false,
+    "response": "Here's how you can implement the function in Python:\n\n```python\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\"\n    Checks if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    \"\"\"\n    return numbers.should()\n```\n\nThe `sho"
+   },
+   {
+    "task": "HumanEval/1",
+    "passed": false,
+    "response": "Here's how you can implement the function:\n\n```python\ndef separate_paren_groups(paren_string: str) -> str:\n    \"\"\"\n    Invalid input. The function should be implemented in Python. The function should be implemented in Python. The function should be implemented in Python."
+   },
+   {
+    "task": "HumanEval/2",
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef truncate_number(number: float) -> float:\n    \"\"\"\n    Reply with the full function in a code block.\n\n    Parameters:\n    number (float): The number to be converted.\n\n    Returns:\n    float: The converted number.\n    \"\"\"\n    \"\"\"\n    \"\"\"\n    \"\""
+   }
+  ]
+ },
+ "mbpp": {
+  "pass_at_1": {
+   "correct": 3,
+   "n": 257,
+   "acc": 0.0117,
+   "ci95": [
+    0.004,
+    0.0338
+   ]
+  },
+  "samples": [
+   {
+    "task": 11,
+    "passed": false,
+    "response": "```python\ndef remove_Occ(string): \n    return string\n```"
+   },
+   {
+    "task": 12,
+    "passed": false,
+    "response": "```python\ndef sort_matrix(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_to_asc(matrix_t"
+   },
+   {
+    "task": 14,
+    "passed": false,
+    "response": "```python\ndef find_Volume(prism): \n    prism = 10 \n    for i in range(len(prism)-1): \n        if (prism[i] \n    return 0\n    return 0\n```"
+   }
+  ]
+ }
+}

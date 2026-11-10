@@ -1,0 +1,73 @@
+{
+  "source": "rl",
+  "tag": "stage1b_50m",
+  "step": 75,
+  "arith_val_2digit_heldout": {
+    "tool_on": {
+      "correct": 300,
+      "n": 300,
+      "acc": 1.0,
+      "ci95": [
+        0.9874,
+        1.0
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 5,
+      "n": 300,
+      "acc": 0.0167,
+      "ci95": [
+        0.0071,
+        0.0384
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "111/111",
+        "tool_off": "0/111"
+      },
+      "-": {
+        "tool_on": "139/139",
+        "tool_off": "0/139"
+      },
+      "*": {
+        "tool_on": "50/50",
+        "tool_off": "5/50"
+      }
+    }
+  },
+  "arith_3digit": {
+    "tool_on": {
+      "correct": 293,
+      "n": 300,
+      "acc": 0.9767,
+      "ci95": [
+        0.9526,
+        0.9887
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 0,
+      "n": 300,
+      "acc": 0.0,
+      "ci95": [
+        0.0,
+        0.0126
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "96/100",
+        "tool_off": "0/100"
+      },
+      "-": {
+        "tool_on": "99/100",
+        "tool_off": "0/100"
+      },
+      "*": {
+        "tool_on": "98/100",
+        "tool_off": "0/100"
+      }
+    }
+  }
+}

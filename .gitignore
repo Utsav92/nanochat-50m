@@ -1,0 +1,13 @@
+data/
+logs/
+upstream/
+checkpoints/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pt
+*.db
+*.parquet
+video/tmp*/
+.venv/
+evaluation/results/demo500_all_answers.json

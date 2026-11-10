@@ -1,0 +1,25 @@
+{
+  "depth": 18,
+  "n_embd": 896,
+  "n_head": 14,
+  "head_dim": 64,
+  "vocab_size": 32768,
+  "padded_vocab_size": 32768,
+  "sequence_len": 2048,
+  "window_pattern": "SSSL",
+  "total_params": 496371238,
+  "trainable_params": 496371238,
+  "breakdown": {
+    "wte": 29360128,
+    "lm_head": 29360128,
+    "value_embeds": 264241152,
+    "attention": 57804264,
+    "mlp": 115605504,
+    "scalars": 62
+  },
+  "non_embedding_params": 173409830,
+  "mem_fp32_MB": 1985.484952,
+  "mem_bf16_MB": 992.742476,
+  "cli": "--depth=18 --aspect-ratio=49 --head-dim=64 --max-seq-len=2048",
+  "est_train_mem_GB_excl_activations_adamw_fp32": 7.941939808
+}

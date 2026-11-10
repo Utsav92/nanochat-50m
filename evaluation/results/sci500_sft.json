@@ -1,0 +1,91 @@
+{
+ "source": "sft",
+ "tag": "sci500m_b",
+ "step": 661,
+ "sciq": {
+  "mc_letter_acc": {
+   "correct": 62,
+   "n": 300,
+   "acc": 0.2067,
+   "ci95": [
+    0.1647,
+    0.2561
+   ]
+  },
+  "mc_chance": 0.25,
+  "mc_valid_format": {
+   "correct": 300,
+   "n": 300,
+   "acc": 1.0,
+   "ci95": [
+    0.9874,
+    1.0
+   ]
+  },
+  "predicted_letter_counts": {
+   "C": 293,
+   "A": 7
+  },
+  "closed_book_contains_gold": {
+   "correct": 16,
+   "n": 300,
+   "acc": 0.0533,
+   "ci95": [
+    0.0331,
+    0.0849
+   ]
+  }
+ },
+ "pubmedqa": {
+  "acc": {
+   "correct": 164,
+   "n": 300,
+   "acc": 0.5467,
+   "ci95": [
+    0.4901,
+    0.6021
+   ]
+  },
+  "majority_class_baseline": {
+   "label": "yes",
+   "acc": 0.5466666666666666
+  },
+  "valid_format": {
+   "correct": 300,
+   "n": 300,
+   "acc": 1.0,
+   "ci95": [
+    0.9874,
+    1.0
+   ]
+  },
+  "predicted_counts": {
+   "yes": 300
+  }
+ },
+ "medqa": {
+  "acc": {
+   "correct": 83,
+   "n": 300,
+   "acc": 0.2767,
+   "ci95": [
+    0.2291,
+    0.3299
+   ]
+  },
+  "chance": 0.25,
+  "valid_format": {
+   "correct": 300,
+   "n": 300,
+   "acc": 1.0,
+   "ci95": [
+    0.9874,
+    1.0
+   ]
+  },
+  "predicted_letter_counts": {
+   "C": 298,
+   "A": 2
+  }
+ }
+}

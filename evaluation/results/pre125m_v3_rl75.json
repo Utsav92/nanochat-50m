@@ -1,0 +1,82 @@
+{
+  "source": "rl",
+  "tag": "pre125m_v3",
+  "step": 75,
+  "arith_val_2digit_heldout": {
+    "tool_on": {
+      "correct": 99,
+      "n": 300,
+      "acc": 0.33,
+      "ci95": [
+        0.2792,
+        0.3851
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 5,
+      "n": 300,
+      "acc": 0.0167,
+      "ci95": [
+        0.0071,
+        0.0384
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "14/111",
+        "tool_off": "0/111"
+      },
+      "-": {
+        "tool_on": "73/139",
+        "tool_off": "0/139"
+      },
+      "*": {
+        "tool_on": "12/50",
+        "tool_off": "5/50"
+      }
+    }
+  },
+  "arith_3digit": {
+    "tool_on": {
+      "correct": 208,
+      "n": 300,
+      "acc": 0.6933,
+      "ci95": [
+        0.639,
+        0.7428
+      ]
+    },
+    "tool_off_network_only": {
+      "correct": 0,
+      "n": 300,
+      "acc": 0.0,
+      "ci95": [
+        0.0,
+        0.0126
+      ]
+    },
+    "per_op": {
+      "+": {
+        "tool_on": "92/100",
+        "tool_off": "0/100"
+      },
+      "-": {
+        "tool_on": "92/100",
+        "tool_off": "0/100"
+      },
+      "*": {
+        "tool_on": "24/100",
+        "tool_off": "0/100"
+      }
+    }
+  },
+  "gsm8k": {
+    "correct": 4,
+    "n": 200,
+    "acc": 0.02,
+    "ci95": [
+      0.0078,
+      0.0503
+    ]
+  }
+}

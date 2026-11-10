@@ -1,0 +1,100 @@
+{
+ "science": [
+  {
+   "prompt": "The lancelet lacks what feature that distinguishes vertebrates?",
+   "rag": false,
+   "answer": "backbone.",
+   "sources": [],
+   "prompt_tokens": 17,
+   "tokens": 4,
+   "first_token_ms": 671,
+   "tok_per_s": 5.0,
+   "gold": "backbone"
+  },
+  {
+   "prompt": "What is a reptiles skin covered in to protect them from drying out?",
+   "rag": false,
+   "answer": "scales.",
+   "sources": [],
+   "prompt_tokens": 18,
+   "tokens": 4,
+   "first_token_ms": 353,
+   "tok_per_s": 7.6,
+   "gold": "scales"
+  }
+ ],
+ "passage": {
+  "prompt": "Answer the question using only the context. If the answer is not in the context, say \"I don't know.\"\n\nContext: Price controls exacerbated the crisis in the US. The system limited the price of \"old oil\" (that which had already been discovered) while allowing newly discovered oil to be sold at a higher price to encourage investment. Predictably, old oil was withdrawn from the market, creating greater scarcity. The rule also discouraged development of alternative energies. The rule had been intended to promote oil exploration. Scarcity was addressed by rationing (as in many countries). Motorists faced long lines at gas stations beginning in summer 1972 and increasing by summer 1973.\n\nQuestion: How was scarcity managed in many countries?",
+  "rag": false,
+  "answer": "by rationing",
+  "sources": [],
+  "prompt_tokens": 166,
+  "tokens": 5,
+  "first_token_ms": 646,
+  "tok_per_s": 6.2,
+  "question": "How was scarcity managed in many countries?",
+  "context": "Price controls exacerbated the crisis in the US. The system limited the price of \"old oil\" (that which had already been discovered) while allowing newly discovered oil to be sold at a higher price to encourage investment. Predictably, old oil was withdrawn from the market, creating greater scarcity. The rule also discouraged development of alternative energies. The rule had been intended to promote oil exploration. Scarcity was addressed by rationing (as in many countries). Motorists faced long lines at gas stations beginning in summer 1972 and increasing by summer 1973.",
+  "gold": "rationing"
+ },
+ "miss": {
+  "prompt": "What kind of a disorder is tay-sachs disease?",
+  "rag": false,
+  "answer": "Tay-sachs disease.",
+  "sources": [],
+  "prompt_tokens": 17,
+  "tokens": 8,
+  "first_token_ms": 44,
+  "tok_per_s": 28.9,
+  "gold": "inherited disorder"
+ },
+ "rag": [
+  {
+   "prompt": "Who wrote the novel Pride and Prejudice?",
+   "rag": true,
+   "answer": "I don't know. The context does not say.",
+   "sources": [
+    "Pride and Prejudice (disambiguation)",
+    "Pride and Prejudice (disambiguation)"
+   ],
+   "prompt_tokens": 406,
+   "tokens": 12,
+   "first_token_ms": 953,
+   "tok_per_s": 9.2
+  },
+  {
+   "prompt": "What is the capital city of Australia?",
+   "rag": true,
+   "answer": "Rockingham",
+   "sources": [
+    "Capital City Authority",
+    "Cooloongup, Western Australia"
+   ],
+   "prompt_tokens": 150,
+   "tokens": 4,
+   "first_token_ms": 871,
+   "tok_per_s": 4.0
+  }
+ ],
+ "norag": [
+  {
+   "prompt": "Who wrote the novel Pride and Prejudice?",
+   "rag": false,
+   "answer": "John Steinbe III III.",
+   "sources": [],
+   "prompt_tokens": 16,
+   "tokens": 8,
+   "first_token_ms": 328,
+   "tok_per_s": 13.3
+  },
+  {
+   "prompt": "What is the capital city of Australia?",
+   "rag": false,
+   "answer": "Australia (Commonwealth realm).",
+   "sources": [],
+   "prompt_tokens": 12,
+   "tokens": 10,
+   "first_token_ms": 319,
+   "tok_per_s": 15.7
+  }
+ ]
+}

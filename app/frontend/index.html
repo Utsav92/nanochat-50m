@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NanoChat Preview</title>
+<style>
+:root{--bg:#fafaf8;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--bd:#e3e2dc;--ac:#2f5d50;--warn:#fff4d6;--warnbd:#e8cf85}
+@media (prefers-color-scheme:dark){:root{--bg:#161614;--fg:#ecebe6;--mut:#9a998f;--card:#1f1f1c;--bd:#33332e;--ac:#7cc2ae;--warn:#3a3317;--warnbd:#6d5f23}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}h1{font-size:20px;margin:0 0 2px}.sub{color:var(--mut);margin:0 0 14px}
+.warn{background:var(--warn);border:1px solid var(--warnbd);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.k{color:var(--mut);font-size:12px}.v{font-weight:600;font-variant-numeric:tabular-nums}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:2px}input,select,textarea{width:100%;padding:7px 9px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--fg);font:inherit}
+textarea{min-height:90px;resize:vertical}button{background:var(--ac);color:var(--bg);border:0;border-radius:6px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}button:disabled{opacity:.5;cursor:default}
+#out{white-space:pre-wrap;word-wrap:break-word;min-height:120px}#out .p{color:var(--mut)}#out .g{background:color-mix(in srgb,var(--ac) 14%,transparent)}.stat{color:var(--mut);font-size:13px;margin-top:8px}
+</style></head><body><main>
+<h1>NanoChat Preview</h1><p class="sub">Local base-model text continuation · runs on this machine</p>
+<div class="warn" id="warn"></div>
+<div class="card"><div class="grid" id="info"><div class="k">loading…</div></div></div>
+<div class="card"><div class="grid">
+ <div><label>Checkpoint</label><select id="tag"></select></div>
+ <div><label>Max new tokens</label><input id="mt" type="number" value="60" min="1" max="400"></div>
+ <div><label>Temperature (0 = greedy)</label><input id="temp" type="number" value="0.8" step="0.1" min="0" max="2"></div>
+ <div><label>Top-k (0 = off)</label><input id="topk" type="number" value="50" min="0"></div>
+ <div><label>Seed</label><input id="seed" type="number" value="1"></div>
+ <div id="ragbox"><label>Retrieval (RAG, chat models)</label><label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--fg)"><input id="rag" type="checkbox" style="width:auto"> answer from Wikipedia passages</label></div></div>
+ <label style="margin-top:12px" id="plabel">Prompt</label><textarea id="prompt">The water cycle is</textarea>
+ <div style="margin-top:10px"><button id="go">Generate</button></div></div>
+<div class="card"><div id="out"><span class="p">Output appears here.</span></div><div class="stat" id="stat"></div></div>
+<script>
+const $=id=>document.getElementById(id);let busy=false;
+let chatMap={};
+function setMode(){const c=chatMap[$('tag').value];$('warn').innerHTML=c?'<b>Experimental small chat model (125M–50M parameters).</b> It is post-trained (SFT / RL) but still gets many facts wrong, may answer "I don\'t know" to questions it could answer, cannot write working code, and only does arithmetic by calling a calculator tool (shown as &lt;|python_start|&gt; tokens). Do not rely on its output.':'<b>Experimental base model.</b> It continues text; it has <u>not</u> been instruction-tuned. It often produces fluent but <b>incorrect</b> statements. Do not rely on its output.';$('plabel').textContent=c?'Message':'Prompt';}
+async function loadInfo(){const t=$('tag').value;if(!t)return;setMode();try{const i=await (await fetch('/api/info/'+t)).json(),m=i.model_config;
+ const f=(k,v)=>`<div><div class="k">${k}</div><div class="v">${v}</div></div>`;
+ $('info').innerHTML=f('Parameters',i.parameters.toLocaleString())+f('Layers × dim',`${m.n_layer} × ${m.n_embd}`)+f('Heads',m.n_head)+f('Vocab',i.vocab_size.toLocaleString())+
+ f('Context',m.sequence_len)+f('Step',i.step)+f('Tokens consumed',i.tokens_consumed==null?'n/a (post-trained)':i.tokens_consumed.toLocaleString())+f('Val bpb (its own val set)',i.val_bpb?.toFixed(4)??'n/a')+f('Device',i.device)}catch(e){$('info').textContent='info failed: '+e}}
+(async()=>{const c=await (await fetch('/api/checkpoints')).json();c.forEach(x=>chatMap[x.tag]=x.chat);$('tag').innerHTML=c.map(x=>`<option value="${x.tag}">${x.tag} (step ${x.step})</option>`).join('');
+ const b=c.find(x=>x.tag==='rl/pre125m')||c.find(x=>x.tag==='base/pre125m');if(b)$('tag').value=b.tag;loadInfo()})();$('tag').onchange=loadInfo;
+$('go').onclick=async()=>{if(busy)return;busy=true;$('go').disabled=true;const prompt=$('prompt').value;$('out').innerHTML='';$('stat').textContent='';
+ const p=document.createElement('span');p.className='p';p.textContent=prompt;const g=document.createElement('span');g.className='g';$('out').append(p,g);
+ const body={tag:$('tag').value,prompt,max_tokens:+$('mt').value,temperature:+$('temp').value,top_k:+$('topk').value,seed:+$('seed').value,rag:$('rag').checked&&!!chatMap[$('tag').value]};
+ try{const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){$('stat').textContent='error '+r.status+': '+await r.text();return}
+  const rd=r.body.getReader(),dec=new TextDecoder();let buf='';
+  for(;;){const {done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
+   while((i=buf.indexOf('\n\n'))>=0){const line=buf.slice(0,i);buf=buf.slice(i+2);if(!line.startsWith('data: '))continue;const e=JSON.parse(line.slice(6));
+    if(e.type==='start'&&e.sources&&e.sources.length){const d=document.createElement('div');d.className='stat';d.style.marginBottom='8px';d.innerHTML='<b>Retrieved (Wikipedia, CC-BY-SA):</b> '+e.sources.map(x=>x.title.replace(/</g,'&lt;')).join(' · ');$('out').parentNode.insertBefore(d,$('out'))}
+    if(e.type==='token')g.textContent+=e.text;else if(e.type==='start'&&e.truncated)$('stat').textContent='prompt truncated to fit the 512-token context · ';
+    else if(e.type==='done')$('stat').textContent+=`${e.tokens} tokens · first token ${e.first_token_ms} ms · ${e.tok_per_s} tok/s`}}}
+ catch(e){$('stat').textContent='failed: '+e}finally{busy=false;$('go').disabled=false}};
+</script></main></body></html>

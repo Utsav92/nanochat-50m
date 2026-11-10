@@ -1,0 +1,238 @@
+{
+ "source": "rl",
+ "tag": "pre125m",
+ "step": 75,
+ "fake": {
+  "abstain": {
+   "correct": 0,
+   "n": 60,
+   "acc": 0.0,
+   "ci95": [
+    -0.0,
+    0.0602
+   ]
+  },
+  "hallucination_rate": 1.0,
+  "examples": [
+   {
+    "q": "Who is the president of the planet Zorblax?",
+    "pred": "The president of the planet Zorblax is Zorblax."
+   },
+   {
+    "q": "Who is the president of the planet Quendrel?",
+    "pred": "The president of the planet Quendrel is Quendrel."
+   },
+   {
+    "q": "Who is the president of the planet Vlorpia?",
+    "pred": "The Vlorpia is the President of the planet Vlorpia."
+   },
+   {
+    "q": "Who is the president of the planet Mekthar?",
+    "pred": "Mekthar"
+   }
+  ]
+ },
+ "trivia": {
+  "answer_contains_gold": {
+   "correct": 20,
+   "n": 300,
+   "acc": 0.0667,
+   "ci95": [
+    0.0436,
+    0.1007
+   ]
+  },
+  "accidental_baseline": {
+   "correct": 2,
+   "n": 300,
+   "acc": 0.0067,
+   "ci95": [
+    0.0018,
+    0.024
+   ]
+  },
+  "abstain_rate": {
+   "correct": 1,
+   "n": 300,
+   "acc": 0.0033,
+   "ci95": [
+    0.0006,
+    0.0186
+   ]
+  },
+  "samples": [
+   {
+    "q": "What long running public radio program, and short lived TV series, debuted in 1995 as Your Radio Playhouse?",
+    "gold": "That American Life",
+    "pred": "The program debuted in 1995 as Your Radio Playhouse, debuted in 1995 as Your Radio Playhouse.",
+    "hit": true
+   },
+   {
+    "q": "A polygraph is more popularly called a?",
+    "gold": "Psychophysiological detection of deception",
+    "pred": "The polygraph is more popularly called a",
+    "hit": true
+   },
+   {
+    "q": "Which King of England sold Dunkirk to Louis XIV of France?",
+    "gold": "King Charles the Second",
+    "pred": "The King of England sold Dunkirk to Louis XIV of France.",
+    "hit": false
+   },
+   {
+    "q": "Which French chemist, regarded as the father of modern chemistry, was guillotined in 1794?",
+    "gold": "Lavoisierian",
+    "pred": "The French chemist, named G",
+    "hit": false
+   },
+   {
+    "q": "The Springfield, Mass YMCA saw the first game of what played on January 20, 1892, when 9 players ended the game with a 1-0 score?",
+    "gold": "Basketball",
+    "pred": "The Springfield, Mass YMCA saw the first game of what played on January 20, 1892.",
+    "hit": false
+   },
+   {
+    "q": "What football team did Arsene Wenger manage immediately before Arsenal?",
+    "gold": "Toyota Motor F.C.",
+    "pred": "Arsene Wenger, a football team, is a football team that plays a crucial role in the team's success.",
+    "hit": false
+   }
+  ]
+ },
+ "squad": {
+  "answerable_contains_gold": {
+   "correct": 41,
+   "n": 300,
+   "acc": 0.1367,
+   "ci95": [
+    0.1024,
+    0.1802
+   ]
+  },
+  "answerable_f1": 0.07450891959319833,
+  "over_abstention_on_answerable": {
+   "correct": 104,
+   "n": 300,
+   "acc": 0.3467,
+   "ci95": [
+    0.2951,
+    0.4022
+   ]
+  },
+  "unanswerable_abstain": {
+   "correct": 107,
+   "n": 300,
+   "acc": 0.3567,
+   "ci95": [
+    0.3046,
+    0.4124
+   ]
+  },
+  "hallucination_rate_unanswerable": 0.6433333333333333,
+  "answerable_examples": [
+   {
+    "q": "When was Warsaw's stock exchange brought back to life?",
+    "gold": "April 1991",
+    "pred": "The context provided does not mention the stock exchange brought back to life."
+   },
+   {
+    "q": "How much Saharan dust is blown and falls upon the Caribbean Sea each year?",
+    "gold": "43 million tons",
+    "pred": "The context provided does not mention the amount of dust transported by wind from the Sahara to the Amazon, which is a r"
+   },
+   {
+    "q": "Along with sport and art, what is a type of talent scholarship?",
+    "gold": "academic",
+    "pred": "The context provided is about Private schools, also known as independent schools."
+   },
+   {
+    "q": "How many streetcars did the Fresno Traction Company operate in 1931?",
+    "gold": "47 streetcars",
+    "pred": "The Fresno Traction Company operates in 1931, so the Fresno Traction Company operates in 1931."
+   }
+  ],
+  "unanswerable_examples": [
+   {
+    "q": "What does the currently flooded ditch still have visible?",
+    "pred": "The currently flooded ditch still has visible valleys and ground depressions."
+   },
+   {
+    "q": "NSF began in 1985 to promote what?",
+    "pred": "The context provided does not mention the NSF began in 1985 to promote advanced research and education networking in the"
+   },
+   {
+    "q": "Discovery of gas in the North Sea resulted in what?",
+    "pred": "The context provided does not mention the discovery of oil in the North Sea."
+   },
+   {
+    "q": "What form do complex rational primes have?",
+    "pred": "The answer is complex rational primes."
+   }
+  ]
+ },
+ "humaneval": {
+  "pass_at_1": {
+   "correct": 0,
+   "n": 164,
+   "acc": 0.0,
+   "ci95": [
+    0.0,
+    0.0229
+   ]
+  },
+  "defined_entry_point": {
+   "correct": 148,
+   "n": 164,
+   "acc": 0.9024,
+   "ci95": [
+    0.8474,
+    0.9391
+   ]
+  },
+  "samples": [
+   {
+    "task": "HumanEval/0",
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\"Check if in numbers, are any two numbers closer to each other than in numbers.\"\"\"\n    if numbers[n] == threshold:\n        return False\n    return True\n```"
+   },
+   {
+    "task": "HumanEval/1",
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\"Input to this function is a string containing multiple groups of nested parentheses.\""
+   },
+   {
+    "task": "HumanEval/2",
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef truncate_number(number: float) -> float:\n    \"\"\"True\""
+   }
+  ]
+ },
+ "mbpp": {
+  "pass_at_1": {
+   "correct": 4,
+   "n": 257,
+   "acc": 0.0156,
+   "ci95": [
+    0.0061,
+    0.0393
+   ]
+  },
+  "samples": [
+   {
+    "task": 11,
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef remove_first_and_l(string):\n    string = string.strip()\n    return string.replace(\" \", \"\", string)\n```\n\nThis function removes the first and last occurrence of the character from the string."
+   },
+   {
+    "task": 12,
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef sort_matrix(matrix):\n    rows = len(matrix)\n    rows = len(matrix)\n    rows = []\n    for row in rows:\n        rows.append(row)\n    return rows\n```"
+   },
+   {
+    "task": 14,
+    "passed": false,
+    "response": "Here's how you can implement this function:\n\n```python\ndef find_Volume(path):\n    return path.replace('', '', '')\n```"
+   }
+  ]
+ }
+}

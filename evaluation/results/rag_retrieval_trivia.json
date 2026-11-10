@@ -1,0 +1,8 @@
+{
+ "top1_contains_gold": 0.51,
+ "top2_contains_gold": 0.61,
+ "top3_contains_gold": 0.6833,
+ "top5_contains_gold": 0.7433,
+ "n": 300,
+ "ms_per_query": 1286.9
+}

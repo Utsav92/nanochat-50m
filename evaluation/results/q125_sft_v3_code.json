@@ -1,0 +1,70 @@
+{
+ "source": "sft",
+ "tag": "pre125m_v3",
+ "step": 359,
+ "humaneval": {
+  "pass_at_1": {
+   "correct": 0,
+   "n": 164,
+   "acc": 0.0,
+   "ci95": [
+    0.0,
+    0.0229
+   ]
+  },
+  "defined_entry_point": {
+   "correct": 41,
+   "n": 164,
+   "acc": 0.25,
+   "ci95": [
+    0.19,
+    0.3215
+   ]
+  },
+  "samples": [
+   {
+    "task": "HumanEval/0",
+    "passed": false,
+    "response": "The function `Representation` is used to iterate over the given list of numbers and check if each number is an instance of the `str` class. If it is, it is an instance of the `str` class. If it is, it is an instance of the `str` class. If it is, it is an instance of the `str` class."
+   },
+   {
+    "task": "HumanEval/1",
+    "passed": false,
+    "response": "\"\"\"\nInput to this function is a string containing multiple groups of nests of that scale. The first step is to identify the pattern that represents the number of spaces in the input string. The second step is to identify the pattern that represents the number of spaces in the input string. The third"
+   },
+   {
+    "task": "HumanEval/2",
+    "passed": false,
+    "response": "<\n\ndef truncate_number(number: float) -> float:\n    return float(number)\n```\n\nThe `trin` function takes a float as input and returns the number of decimal part of the number. It then multiplies the number by 3 and stores it in a single string, and then multiplies the number by 4. The `trin` function"
+   }
+  ]
+ },
+ "mbpp": {
+  "pass_at_1": {
+   "correct": 0,
+   "n": 257,
+   "acc": 0.0,
+   "ci95": [
+    0.0,
+    0.0147
+   ]
+  },
+  "samples": [
+   {
+    "task": 11,
+    "passed": false,
+    "response": "```python\ndef remove_Occ(str1,str2):\n  res = ''\n  for i in range(len(str1)):\n    if str1[i] >= str2[i+1]:\n          res += catr\n          res += catr\n          res += catr\n  return (res)\n```"
+   },
+   {
+    "task": 12,
+    "passed": false,
+    "response": "```python\ndef sort_matrix([[1, 2, 3]):\n    result = [[[1, 2, 3] for i in range(len([[1, 2, 3])] for j in range(i+1, 1)]]\n    return result\n```"
+   },
+   {
+    "task": 14,
+    "passed": false,
+    "response": "```python\ndef find_Volume(n,r,a):\n    return (n * (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / (a * b) / "
+   }
+  ]
+ }
+}
